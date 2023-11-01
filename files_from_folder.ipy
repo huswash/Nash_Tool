@@ -1,0 +1,42 @@
+"""
+Two libraries are required
+pd & glob
+"""
+import pandas as pd
+import glob
+
+# specify the path to read files from
+path = "tip_toe/sneacky_data"
+_files = glob.glob(path + "/*.xlsx")
+
+# loop through the file as you read the data
+
+lst = []
+for filename in _files:
+    df = pd.read_excel(filename, index_col=None, header=0)
+    lst.append(df)
+
+# concatenate all the dataframe
+
+df = pd.concat(lst, axis=0, ignore_index=True)
+
+#print the data
+df
+
+# Method 2
+
+lst_map = map(lambda filename:pd.read_excel(filename, index_col=None, header=0), _files)
+lst_two = list(lst_map)
+
+df2 = pd.concat(lst_two, axis=0, ignore_index=True)
+
+# call the data
+df2
+
+# Method 3
+# Using for loop inside a list
+lst_3 = [pd.read_excel(filename, index_col=None, header=0) for filename in _files]
+
+df3 = pd.concat(lst_3, axis=0, ignore_index=True)
+
+df3
