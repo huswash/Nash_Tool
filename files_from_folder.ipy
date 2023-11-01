@@ -4,6 +4,7 @@ pd & glob
 """
 import pandas as pd
 import glob
+import numpy as np
 
 # specify the path to read files from
 path = "tip_toe/sneacky_data"
