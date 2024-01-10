@@ -1,0 +1,46 @@
+import yfinance as yf
+
+stock = yf.Ticker("")
+sharesoutstanding = stock.info['sharesoutstanding']
+
+# assumed parameters
+required_rate =  0.07
+perpetual_rate = 0.02
+CashFlowgrowthRate = 0.03
+
+Years = [1,2,3,4]
+
+# stock.info['Freecashflow']
+
+Freecashflow = [50803000, 64121000,58896000,73365000] #last 4 yrs
+
+futurefreecashflow = []
+discountfactor = []
+discountedFuturefreeCashflow = []
+
+terminal_value = Freecashflow[-1]* (1+perpetual_rate)/(required_rate-perpetual_rate)
+
+# print(terminal_value)
+
+for year in Years:
+    cashflow = Freecashflow[-1] * (1 + CashFlowgrowthRate) ** year
+    futurefreecashflow.append(cashflow)
+    discountfactor.append(1+required_rate)**year
+
+## print(discountfactor)
+## print(futurefreecashflow)
+
+for i in range(0, len(Years)):
+    discountedFuturefreeCashflow.append(futurefreecashflow[i]/discountfactor[i])
+
+# print(discountedFuturefreeCashflow)
+
+DiscountedterminalValue = terminal_value/(1+required_rate)**4
+discountedFuturefreeCashflow.append(DiscountedterminalValue)
+
+Todays_value = sum(discountedFuturefreeCashflow)
+
+fair_value_per_share = Todays_value*1000/sharesoutstanding
+
+# print("The fair value of {} is ${}".format(stock.info['Ticker']), format(round(fair_value_per_share, 2)) )
+print("The fair value of the stock is ${}".format(round(fair_value_per_share, 2)) )
