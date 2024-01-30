@@ -1,0 +1,6 @@
+import yfinance as yf
+
+stock = yf.Ticker("")
+sharesoutstanding = stock.info['sharesoutstanding']
+
+# assumed parameters
